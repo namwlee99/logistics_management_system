@@ -37,5 +37,5 @@ Servo Motor: 물체를 스토리지 별로 분류
 ## 전면도
 ![KakaoTalk_Photo_2023-06-25-16-47-03](https://github.com/namwlee99/logistics_management_system/assets/123155552/e48b2da5-87a5-4a3a-a539-f853676af3a0)
 
-## 작동영상
-[![Watch the video](https://i.imgur.com/YHekVKBjydo.png)](https://youtu.be/YHekVKBjydo)
+## 작동 동영상
+[![Watch the video](https://img.youtube.com/vi/YHekVKBjydo/0.jpg)](https://youtu.be/YHekVKBjydo)
