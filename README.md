@@ -38,4 +38,4 @@ Servo Motor: 물체를 스토리지 별로 분류
 ![KakaoTalk_Photo_2023-06-25-16-47-03](https://github.com/namwlee99/logistics_management_system/assets/123155552/e48b2da5-87a5-4a3a-a539-f853676af3a0)
 
 ## 작동영상
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YHekVKBjydo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YHekVKBjydo" frameborder="0" gesture="media" allowfullscreen=""></iframe>
