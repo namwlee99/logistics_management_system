@@ -1,4 +1,11 @@
-import sys, time, RPi.GPIO as GPIO, cv2, pyzbar.pyzbar as pyzbar, pigpio, dht11, spidev
+import sys
+import time
+import RPi.GPIO as GPIO
+import cv2
+import pyzbar.pyzbar as pyzbar
+import pigpio
+import dht11
+import spidev
 from multiprocessing import Process
 from RPi_I2C_LCD_driver import RPi_I2C_driver
 
@@ -60,6 +67,7 @@ object_order = []
 print_text = ''
 
 def motor_start(motor_spe):
+    #모터 작동 함수
     pwm1.ChangeDutyCycle(motor_spe)
     pwm2.ChangeDutyCycle(motor_spe)
     GPIO.output(motor1_pin[1], True)
@@ -68,11 +76,13 @@ def motor_start(motor_spe):
     GPIO.output(motor2_pin[1], False)
     
 def motor_stop(motor_dur):
+    #모터 정지 함수
     time.sleep(motor_dur)
     pwm1.ChangeDutyCycle(0)
     pwm2.ChangeDutyCycle(0)
   
 def buzzer(buzzer_num):
+    #경고음 알림 함수
     for i in range(0, buzzer_num):
         GPIO.output(buzzer_pin, True)
         time.sleep(0.0625)
@@ -80,6 +90,7 @@ def buzzer(buzzer_num):
         time.sleep(0.0625)
   
 def flood():
+    #Water Sensor 작동에 필요한 함수
     assert 0 <= spi_channel <= 0
         
     if spi_channel:
@@ -92,15 +103,16 @@ def flood():
     return ((r[1] & 31) << 6) + (r[2] >> 2)
 
 def motor_action(motor_state, iden_obj):
+    #모터, 서보모터 작동 함수
     if motor_state == 1:
         motor_start(35)
     if not(GPIO.input(ir_pin)):
         if iden_obj == 1001:
-            pi.set_servo_pulsewidth(25, 1600)
+            pi.set_servo_pulsewidth(25, 1600)    #1번 창고
         elif iden_obj == 1002:
-            pi.set_servo_pulsewidth(25, 1250)
+            pi.set_servo_pulsewidth(25, 1250)    #2번 창고
         elif iden_obj == 1003:
-            pi.set_servo_pulsewidth(25, 1000)
+            pi.set_servo_pulsewidth(25, 1000)    #3번 창고
         motor_start(80)
         motor_stop(3)
         pi.set_servo_pulsewidth(25, 1000)
@@ -108,6 +120,7 @@ def motor_action(motor_state, iden_obj):
         return motor_state
 
 def state_print(state_mode, crisis_string):
+    #LCD 상태 출력 함수
     global dht11, dht11_state
     print("--------------------------------------------------")
     print("%s\n%s\n%s\n%s" % (crisis_string[0], crisis_string[1], crisis_string[2], crisis_string[3]))
@@ -136,30 +149,32 @@ def state_print(state_mode, crisis_string):
             lcd.print(crisis_string[i])
 
 def state_check(state_mode, print_text, flood_state, flame_state, gas_state):
+    #상태 체크 및 출력 전처리 함수
     global dht11, dht11_state, motor_state
-    if flood_state and flame_state and gas_state:
+    if flood_state and flame_state and gas_state:                    #홍수 발생
         crisis_string[1] = '###### FLOOD #######'
         crisis_string[2] = '##### OUTBREAK #####'
-    elif (not(flood_state)) and (not(flame_state)) and gas_state:
+    elif (not(flood_state)) and (not(flame_state)) and gas_state:    #화재 발생
         crisis_string[1] = '###### FLAME #######'
         crisis_string[2] = '##### OUTBREAK #####'
-    elif (not(flood_state)) and flame_state and (not(gas_state)):
+    elif (not(flood_state)) and flame_state and (not(gas_state)):    #가스 누출 발생
         crisis_string[1] = '####### GAS ########'
         crisis_string[2] = '####### LEAK #######'
-    elif flood_state and (not(flame_state)) and gas_state:
+    elif flood_state and (not(flame_state)) and gas_state:            #홍수, 화재 발생
         crisis_string[1] = '### FLOOD FLAME ####'
         crisis_string[2] = '##### OUTBREAK #####'
-    elif flood_state and flame_state and (not(gas_state)):
+    elif flood_state and flame_state and (not(gas_state)):            #홍수, 가스 누출 발생
         crisis_string[1] = '## FLOOD OUTBREAK ##'
         crisis_string[2] = '##### GAS LEAK #####'  
-    elif (not(flood_state)) and (not(flame_state)) and (not(gas_state)):
+    elif (not(flood_state)) and (not(flame_state)) and (not(gas_state)):    #화재, 가스 누출 발생
         crisis_string[1] = '## FLAME OUTBREAK ##'
         crisis_string[2] = '##### GAS LEAK #####'
-    elif flood_state and (not(flame_state)) and (not(gas_state)):
+    elif flood_state and (not(flame_state)) and (not(gas_state)):            #홍수, 화재, 가스 누출 발생
         crisis_string[1] = 'FLOOD FLAME OUTBREAK'
         crisis_string[2] = '##### GAS LEAK #####'
     else:
         if state_mode == 0  and (dht11.is_valid() and ((dht11_state[0] != dht11.temperature) or (dht11_state[1] != dht11.humidity))):
+            #온습도가 갱신되었을 때
             crisis_string[0] = '  Camera is Ready   '
             crisis_string[1] = '1st St: %d 2st St: %d ' %(object_num[1], object_num[2])
             crisis_string[2] = '3st St: %d All St: %d ' %(object_num[3], object_num[0])
@@ -168,6 +183,7 @@ def state_check(state_mode, print_text, flood_state, flame_state, gas_state):
             dht11_state[1] = dht11.humidity
             state_print(state_mode, crisis_string)
         elif state_mode == 0 and crisis_string[0] != '  Camera is Ready   ':
+            #창고 재고가 변경되었을 때
             crisis_string[0] = '  Camera is Ready   '
             crisis_string[1] = '1st St: %d 2st St: %d ' %(object_num[1], object_num[2])
             crisis_string[2] = '3st St: %d All St: %d ' %(object_num[3], object_num[0])
@@ -176,6 +192,7 @@ def state_check(state_mode, print_text, flood_state, flame_state, gas_state):
             dht11_state[1] = dht11.humidity
             state_print(state_mode, crisis_string)
         elif state_mode == 0 and motor_state == 1:
+            #모터가 작동될 때
             crisis_string[0] = '    Motor   Move     '
             crisis_string[1] = '1st St: %d 2st St: %d ' %(object_num[1], object_num[2])
             crisis_string[2] = '3st St: %d All St: %d ' %(object_num[3], object_num[0])
@@ -184,6 +201,7 @@ def state_check(state_mode, print_text, flood_state, flame_state, gas_state):
             dht11_state[1] = dht11.humidity
             state_print(state_mode, crisis_string)   
         elif state_mode > 0:
+            #QR코드가 인식되었을 때
             crisis_string[0] = str(print_text)
             crisis_string[1] = '1st St: %d 2st St: %d ' %(object_num[1], object_num[2])
             crisis_string[2] = '3st St: %d All St: %d ' %(object_num[3], object_num[0])
@@ -195,6 +213,7 @@ def state_check(state_mode, print_text, flood_state, flame_state, gas_state):
             buzzer(state_mode)
         
     if flood_state or (not(flame_state)) or (not(gas_state)):
+        #재난 상황 발생시 경고 문고
         crisis_string[0] = '########## WARNING #'
         crisis_string[3] = '# WARNING ##########'
         state_print(5, crisis_string)
@@ -216,7 +235,7 @@ def main():
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  
             decoded = pyzbar.decode(gray)
             
-            flood_state = (flood() > 100)
+            flood_state = (flood() > 100)        
             flame_state = GPIO.input(flame_pin)
             gas_state = GPIO.input(gas_pin)
             
@@ -230,6 +249,7 @@ def main():
                 x, y, w, h = d.rect
                 if not((flood_state)) and flame_state and gas_state:
                     if (d.data.decode('utf-8') == object_list[0]) and (object_num[1] < 3) and (object_num[0] < 9):
+                        #첫번째 창고 QR코드가 찍혔을 때
                         object_num[1] += 1
                         iden_obj = int(d.data.decode('utf-8'))
                         print_text = '   First Storage    '
@@ -242,6 +262,7 @@ def main():
                         cap.open(0)
         
                     elif (d.data.decode('utf-8') == object_list[1]) and (object_num[2] < 3) and (object_num[0] < 9):
+                        #두번째 창고 QR코드가 찍혔을 때
                         object_num[2] += 1
                         iden_obj = int(d.data.decode('utf-8'))
                         print_text = '   Second Storage   '
@@ -254,6 +275,7 @@ def main():
                         cap.open(0)
         
                     elif (d.data.decode('utf-8') == object_list[2]) and (object_num[3] < 3) and (object_num[0] < 9):
+                        #세번째 창고 QR코드가 찍혔을 때
                         object_num[3] += 1
                         iden_obj = int(d.data.decode('utf-8'))
                         print_text = '   Third Storage    '
@@ -267,6 +289,7 @@ def main():
        
                     elif ((d.data.decode('utf-8') == object_list[0]) or (d.data.decode('utf-8') == object_list[1]) or (d.data.decode('utf-8') == object_list[2])) and \
                          (object_num[0] == 9):
+                        #물건이 초과되었을 때
                         print_text = '    Object Over     '
                         object_num[0] = object_num[1] + object_num[2] + object_num[3]
                         state_check_p=Process(target=state_check(2, print_text, 0, 1, 1))
@@ -277,6 +300,7 @@ def main():
        
                     elif ((d.data.decode('utf-8') == object_list[0]) or (d.data.decode('utf-8') == object_list[1]) or (d.data.decode('utf-8') == object_list[2])) and \
                          ((object_num[1] == 3) or (object_num[2] == 3) or (object_num[3] == 3)):
+                        #창고가 꽉찼을 때
                         print_text = '  Storage is full   '
                         object_num[0] = object_num[1] + object_num[2] + object_num[3]
                         state_check_p=Process(target=state_check(2, print_text, 0, 1, 1))
@@ -286,6 +310,7 @@ def main():
                         cap.open(0)
         
                     else:
+                        #잘못된 QR코드가 찍혔을 때
                         print_text = '    Wrong QR code   '
                         object_num[0] = object_num[1] + object_num[2] + object_num[3]
                         state_check_p=Process(target=state_check(2, print_text, 0, 1, 1))
@@ -295,7 +320,7 @@ def main():
                         cap.open(0)
                     
 try:
-    motor_stop(0)
+    motor_stop(0)                    #모터 초기화
     main_p=Process(target=main())
     main_p.start()
     
