@@ -28,13 +28,16 @@ Servo Motor: 물체를 스토리지 별로 분류
 만약 해당 교차점에서 이동하려고 하면 서브모터가 제품을 이동시키게 되고, 컨베이어 벨트에서 지정된 위치로 이동시키게 된다. 제품의 효율적 관리를 위해 Flame센서와 Gas센서, Water센서, 온습도 센서를 내장하게 되고 LCD와 Buzzer를 통해 물류창고 상태를 확인할 수 있다.
 
 ## 블록도
-<img width="824" alt="image" src="https://github.com/namwlee99/logistics_management_system/assets/123155552/6d6c7c4e-d2ca-4e3c-8f4c-d260321d49e8">
+<img width="768" alt="image" src="https://github.com/namwlee99/logistics_management_system/assets/123155552/e7ba58fe-69ec-4378-99d4-6f4615f3e3cb">
+
 
 ## 회로도
-![KakaoTalk_Photo_2023-06-25-16-59-58](https://github.com/namwlee99/logistics_management_system/assets/123155552/410ccaf1-d42c-47a2-957a-2a70ad10f449)
+![KakaoTalk_Photo_2023-07-02-10-03-41](https://github.com/namwlee99/logistics_management_system/assets/123155552/1fdc1679-29d2-47a5-b8c3-d5961d5cff7e)
 
-## 전면도
-![KakaoTalk_Photo_2023-06-25-16-47-03](https://github.com/namwlee99/logistics_management_system/assets/123155552/e48b2da5-87a5-4a3a-a539-f853676af3a0)
+
+## 사진
+![KakaoTalk_Photo_2023-06-25-16-47-12](https://github.com/namwlee99/logistics_management_system/assets/123155552/987fcad2-236b-4408-970e-6b779f5ea6cc)
+
 
 ## 작동 동영상
 [![Watch the video](https://img.youtube.com/vi/YHekVKBjydo/0.jpg)](https://youtu.be/YHekVKBjydo)
