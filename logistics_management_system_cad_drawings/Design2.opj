@@ -1,0 +1,101 @@
+(ExpressProject "Design2"
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library"
+      (File ".\library2.olb"
+        (Type "Schematic Library")))
+    (NoModify)
+    (File ".\design2.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (Board_sim_option "VHDL_flow"))
+  (Folder "Outputs")
+  (Folder "Referenced Projects")
+  (MPSSessionName "admin")
+  (PartMRUSelector
+    (VCC
+      (LibraryName "C:\ORCAD\ORCAD_16.6_LITE\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (0
+      (LibraryName "C:\ORCAD\ORCAD_16.6_LITE\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (Motor
+      (FullPartName "Motor.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    ("IR Sensor"
+      (FullPartName "IR Sensor.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    ("Servo Motor"
+      (FullPartName "Servo Motor.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    (DHT11
+      (FullPartName "DHT11.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    ("Water Sensor"
+      (FullPartName "Water Sensor.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    ("Gas Sensor"
+      (FullPartName "Gas Sensor.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    ("Flame Sensor"
+      (FullPartName "Flame Sensor.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    ("PI Camera"
+      (FullPartName "PI Camera.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    (Buzzer
+      (FullPartName "Buzzer.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    (LCD2004
+      (FullPartName "LCD2004.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    (L298n
+      (FullPartName "L298n.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    (MCP3008
+      (FullPartName "MCP3008.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0"))
+    (GPIO
+      (FullPartName "GPIO.Normal")
+      (LibraryName "C:\DD\LIBRARY2.OLB")
+      (DeviceIndex "0")))
+  (LastUsedLibraryBrowseDirectory "C:\dd")
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" ".\design2.dsn")
+      (Path "Design Resources" ".\design2.dsn" "SCHEMATIC1")
+      (Path "Design Resources" ".\design2.dsn" "Design Cache")
+      (Path "Design Resources" "Library")
+      (Path "Design Resources" "Library" ".\library2.olb")
+      (Select "Design Resources" ".\design2.dsn" "Design Cache" "PI Camera"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -31 0 200 0 246"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -8 -31 78 953 78 363")
+        (Scroll "15 0")
+        (Zoom "150")
+        (Occurrence "/"))
+      (Path "C:\DD\DESIGN2.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "PAGE1"))))
